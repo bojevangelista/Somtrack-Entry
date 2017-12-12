@@ -10,3 +10,19 @@ C:\Users\Programmer\Documents\Development\OnePieceFlowEntry\One Piece Flow - Som
 C:\Users\Programmer\Documents\Development\OnePieceFlowEntry\One Piece Flow - Somtrack Entry\One Piece Flow - Somtrack Entry\obj\Debug\One Piece Flow - Somtrack Entry.exe
 C:\Users\Programmer\Documents\Development\OnePieceFlowEntry\One Piece Flow - Somtrack Entry\One Piece Flow - Somtrack Entry\obj\Debug\One Piece Flow - Somtrack Entry.xml
 C:\Users\Programmer\Documents\Development\OnePieceFlowEntry\One Piece Flow - Somtrack Entry\One Piece Flow - Somtrack Entry\obj\Debug\One Piece Flow - Somtrack Entry.pdb
+C:\Users\Programmer\Documents\Development Somtrack Entry\Somtrack Entry\One Piece Flow - Somtrack Entry\bin\Debug\One Piece Flow - Somtrack Entry.exe.config
+C:\Users\Programmer\Documents\Development Somtrack Entry\Somtrack Entry\One Piece Flow - Somtrack Entry\bin\Debug\One Piece Flow - Somtrack Entry.exe
+C:\Users\Programmer\Documents\Development Somtrack Entry\Somtrack Entry\One Piece Flow - Somtrack Entry\bin\Debug\One Piece Flow - Somtrack Entry.pdb
+C:\Users\Programmer\Documents\Development Somtrack Entry\Somtrack Entry\One Piece Flow - Somtrack Entry\bin\Debug\One Piece Flow - Somtrack Entry.xml
+C:\Users\Programmer\Documents\Development Somtrack Entry\Somtrack Entry\One Piece Flow - Somtrack Entry\obj\Debug\One Piece Flow - Somtrack Entry.vbprojResolveAssemblyReference.cache
+C:\Users\Programmer\Documents\Development Somtrack Entry\Somtrack Entry\One Piece Flow - Somtrack Entry\obj\Debug\One_Piece_Flow___Somtrack_Entry.Form1.resources
+C:\Users\Programmer\Documents\Development Somtrack Entry\Somtrack Entry\One Piece Flow - Somtrack Entry\obj\Debug\One_Piece_Flow___Somtrack_Entry.Resources.resources
+C:\Users\Programmer\Documents\Development Somtrack Entry\Somtrack Entry\One Piece Flow - Somtrack Entry\obj\Debug\One Piece Flow - Somtrack Entry.vbproj.GenerateResource.Cache
+C:\Users\Programmer\Documents\Development Somtrack Entry\Somtrack Entry\One Piece Flow - Somtrack Entry\obj\Debug\One Piece Flow - Somtrack Entry.vbproj.CoreCompileInputs.cache
+C:\Users\Programmer\Documents\Development Somtrack Entry\Somtrack Entry\One Piece Flow - Somtrack Entry\obj\Debug\One Piece Flow - Somtrack Entry.exe
+C:\Users\Programmer\Documents\Development Somtrack Entry\Somtrack Entry\One Piece Flow - Somtrack Entry\obj\Debug\One Piece Flow - Somtrack Entry.xml
+C:\Users\Programmer\Documents\Development Somtrack Entry\Somtrack Entry\One Piece Flow - Somtrack Entry\obj\Debug\One Piece Flow - Somtrack Entry.pdb
+C:\Users\Programmer\Documents\Development Somtrack Entry\Somtrack Entry\One Piece Flow - Somtrack Entry\bin\Debug\One Piece Flow - Somtrack Entry.exe.manifest
+C:\Users\Programmer\Documents\Development Somtrack Entry\Somtrack Entry\One Piece Flow - Somtrack Entry\bin\Debug\One Piece Flow - Somtrack Entry.application
+C:\Users\Programmer\Documents\Development Somtrack Entry\Somtrack Entry\One Piece Flow - Somtrack Entry\obj\Debug\One Piece Flow - Somtrack Entry.exe.manifest
+C:\Users\Programmer\Documents\Development Somtrack Entry\Somtrack Entry\One Piece Flow - Somtrack Entry\obj\Debug\One Piece Flow - Somtrack Entry.application

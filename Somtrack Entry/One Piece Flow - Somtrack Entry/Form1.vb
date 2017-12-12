@@ -1,6 +1,7 @@
 ﻿Imports System.Data.SqlClient
 Public Class Form1
-    Dim TableSet = My.Computer.FileSystem.ReadAllText("C:\Users\Programmer\Documents\OPF-TableNo.txt")
+    Dim user = Environment.UserName
+    Dim TableSet = My.Computer.FileSystem.ReadAllText("C:\Users\" + user + "\Documents\OPF-TableNo.txt")
     'SERVER'
     Dim con As SqlConnection = New SqlConnection("Data Source=10.130.15.40;Initial Catalog=somtrackdbprod;User ID=somtrack2;Password=sompass12345")
     Dim con2 As SqlConnection = New SqlConnection("Data Source=SOMNOMED-IBM;Initial Catalog=SMProduction;User ID=SOMNOMED-IBM-Guest;Password=Somnomed01")
@@ -61,6 +62,14 @@ Public Class Form1
                 con.Close()
             Else
 Update:
+                ''''UPDATE HEAD''''
+                con2.Open()
+                Dim UpdateHead As String = "UPDATE ProductionHead SET StationID = 2 WHERE SomtrackID = @Som"
+                Dim UpdateHeadQuery As SqlCommand = New SqlCommand(UpdateHead, con2)
+                UpdateHeadQuery.Parameters.AddWithValue("@Som", Label15.Text)
+                UpdateHeadQuery.ExecuteNonQuery()
+                con2.Close()
+
                 ''''UPDATE DETAILS''''
                 con2.Open()
                 Dim UpdateDetails As String = "UPDATE PD SET PD.DateEnded = GETDATE(), PD.Status = 5 FROM ProductionDetails as PD LEFT JOIN StationProcess as SP ON PD.BOMDID = SP.BOMDID LEFT JOIN ProductionHead as PH ON PH.ProductionHeadID = PD.ProductionHeadID LEFT JOIN TableMembers as TM ON TM.StationID = SP.StationID LEFT JOIN TableSet as TS ON TS.TableSetID = TM.TableSetID WHERE TS.TableID = 1 AND SP.StationID = 1 AND TS.TableSetStatus = 1 AND TM.TableMemberStatus = 1 AND PD.Status = 1 AND PH.SomtrackID = @Som"
@@ -69,9 +78,23 @@ Update:
                 UpdateDetailsQuery.ExecuteNonQuery()
                 con2.Close()
 
+
+                ''''UPDATE NEXT DETAILS''''
+                con2.Open()
+                Dim UpdateNextDetails As String = "Update PD SET PD.Status = 2 FROM [SMProduction].[dbo].[ProductionHead] as PH LEFT JOIN StationProcess as SP ON SP.StationID = PH.StationID LEFT JOIN ProductionDetails as PD ON PD.ProductionHeadID = PH.ProductionHeadID And PD.BOMDID = SP.BOMDID WHERE PH.SomtrackID = @Som"
+                Dim UpdateNextDetailsQuery As SqlCommand = New SqlCommand(UpdateNextDetails, con2)
+                UpdateNextDetailsQuery.Parameters.AddWithValue("@Som", Label15.Text)
+                UpdateNextDetailsQuery.ExecuteNonQuery()
+                con2.Close()
+
+
                 MessageBox.Show("Case is now on Queue", "Complete")
                 Me.Controls.Clear()
                 Me.InitializeComponent()
+                TextBox1.Enabled = True
+                TextBox1.Select()
+
+
                 LoadCategory()
                 Entry = 0
             End If
@@ -365,20 +388,21 @@ Update:
             Dim s1 As String = "0"
             ''''INSERT HEAD''''
             con2.Open()
-            Dim InsertHead As String = "INSERT INTO ProductionHead (SomtrackID,DateStarted, Status, ProductSubID, CategoryID, SubCategoryID, SplintID) Values (@Som, GETDATE(), 1, @PS, @CID, @SCID, @SID)"
+            Dim InsertHead As String = "INSERT INTO ProductionHead (SomtrackID,DateStarted, Status, ProductSubID, CategoryID, SubCategoryID, SplintID, TableNo, StationID) Values (@Som, GETDATE(), 1, @PS, @CID, @SCID, @SID, @TS, 1)"
             Dim InsertHeadQuery As SqlCommand = New SqlCommand(InsertHead, con2)
             InsertHeadQuery.Parameters.AddWithValue("@Som", Label15.Text)
             InsertHeadQuery.Parameters.AddWithValue("@PS", ComboBox3.SelectedValue)
             InsertHeadQuery.Parameters.AddWithValue("@CID", gCategoryID)
             InsertHeadQuery.Parameters.AddWithValue("@SCID", gSubCategoryID)
             InsertHeadQuery.Parameters.AddWithValue("@SID", gSplintID)
+            InsertHeadQuery.Parameters.AddWithValue("@TS", TableSet)
             InsertHeadQuery.ExecuteNonQuery()
             con2.Close()
 
 
             ''''INSERT DETAILS''''
             con2.Open()
-            Dim InsertDetails As String = "INSERT INTO [ProductionDetails] ([ProductionHeadID], [BOMDID], [Status]) SELECT [ProductionHeadID], BOMDID, 2 as Status FROM [ProductionHead] as PH LEFT JOIN Converter AS C ON C.ProductSubID = PH.ProductSubID LEFT JOIN BillOfMaterials as BM ON BM.BOMID = C.BOMID LEFT JOIN BillOfMaterialsDetails as BD ON BD.BOMID = BM.BOMID WHERE BM.BOMStatus = 1 AND BD.BOMDStatus = 1 AND PH.SomtrackID = @Som"
+            Dim InsertDetails As String = "INSERT INTO [ProductionDetails] ([ProductionHeadID], [BOMDID], [Status]) SELECT [ProductionHeadID], BOMDID, 3 as Status FROM [ProductionHead] as PH LEFT JOIN Converter AS C ON C.ProductSubID = PH.ProductSubID LEFT JOIN BillOfMaterials as BM ON BM.BOMID = C.BOMID LEFT JOIN BillOfMaterialsDetails as BD ON BD.BOMID = BM.BOMID WHERE BM.BOMStatus = 1 AND BD.BOMDStatus = 1 AND PH.SomtrackID = @Som"
             Dim InsertDetailsQuery As SqlCommand = New SqlCommand(InsertDetails, con2)
             InsertDetailsQuery.Parameters.AddWithValue("@Som", Label15.Text)
             InsertDetailsQuery.ExecuteNonQuery()
