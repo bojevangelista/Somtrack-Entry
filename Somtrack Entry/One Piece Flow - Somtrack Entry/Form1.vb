@@ -5,30 +5,65 @@ Public Class Form1
     'SERVER'
     Dim con As SqlConnection = New SqlConnection("Data Source=10.130.15.40;Initial Catalog=somtrackdbprod;User ID=somtrack2;Password=sompass12345")
     Dim con2 As SqlConnection = New SqlConnection("Data Source=SOMNOMED-IBM;Initial Catalog=SMProduction;User ID=SOMNOMED-IBM-Guest;Password=Somnomed01")
+    Dim con3 As SqlConnection = New SqlConnection("Data Source=SOMNOMED-IBM;Initial Catalog=SMProduction;User ID=SOMNOMED-IBM-Guest;Password=Somnomed01")
     Dim BOMStatus = 0
     Dim gCategoryID = 0
     Dim gSubCategoryID = 0
     Dim gSplintID = 0
     Dim Entry = 0
+    Dim LabPan = 0
 
-    Private Sub Label15_Click(sender As Object, e As EventArgs) Handles Label15.Click
 
-    End Sub
 
     Private Sub TextBox1_KeyPress(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles TextBox1.KeyPress
         If Asc(e.KeyChar) = 13 Then
             e.Handled = True
-            If (Entry = 0) Then
-                Label15.Text = TextBox1.Text
-                TextBox1.Text = ""
+            Label3.ForeColor = Color.AntiqueWhite
+            Label15.Text = TextBox1.Text
+            TextBox1.Text = ""
                 'LOCALHOST' 
                 'con = New SqlConnection("Data Source=localhost;Initial Catalog=SomnoMed;User ID=SOMNOMED-IBM-Guest;Password=Somnomed01")
                 'LOCALHOST'
 
+
+                '''''''CHECK ACTIVE CASE'''''''''''
+                Dim Activequery As String = "Select [SomtrackID], [StationID] From [SMProduction].[dbo].[ProductionHead] Where [TableNo] = @TS "
+                Dim Activecmd As SqlCommand = New SqlCommand(Activequery, con2)
+                Activecmd.Parameters.AddWithValue("@TS", TableSet)
+                con2.Open()
+                Using reader As SqlDataReader = Activecmd.ExecuteReader()
+                    If reader.HasRows Then
+                        While reader.Read()
+                            If Label15.Text = reader.Item("SomtrackID") And reader.Item("StationID") = 1 Then
+                                con2.Close()
+                                GoTo Accept
+                            ElseIf Label15.Text = reader.Item("SomtrackID") Then
+                            Label15.Text = reader.Item("SomtrackID")
+                            Label3.ForeColor = Color.Red
+                            Label3.Text = "already scanned"
+                                con2.Close()
+                                GoTo Denied
+                            ElseIf reader.Item("StationID") = 1 Then
+                            Label15.Text = reader.Item("SomtrackID")
+                            Label3.ForeColor = Color.Red
+                            Label3.Text = "is still active"
+                                con2.Close()
+                                GoTo Denied
+                            End If
+                        End While
+
+                    End If
+                End Using
+                con2.Close()
+
+Accept:
+            If (Entry = 0) Then
+
                 '''''''CHECK OPEN CASE'''''''''''
-                Dim Openquery As String = "SELECT * FROM ProductionDetails as PD LEFT JOIN StationProcess as SP ON PD.BOMDID = SP.BOMDID LEFT JOIN ProductionHead as PH ON PH.ProductionHeadID = PD.ProductionHeadID LEFT JOIN TableMembers as TM ON TM.StationID = SP.StationID LEFT JOIN TableSet as TS ON TS.TableSetID = TM.TableSetID WHERE TS.TableID = 1 AND SP.StationID = 1 AND TS.TableSetStatus = 1 AND TM.TableMemberStatus = 1 AND PD.Status = 1 AND PH.SomtrackID = @Som"
+                Dim Openquery As String = "SELECT * FROM ProductionDetails as PD LEFT JOIN StationProcess as SP ON PD.BOMDID = SP.BOMDID LEFT JOIN ProductionHead as PH ON PH.ProductionHeadID = PD.ProductionHeadID LEFT JOIN TableMembers as TM ON TM.StationID = SP.StationID LEFT JOIN TableSet as TS ON TS.TableSetID = TM.TableSetID WHERE TS.TableID = @TS AND SP.StationID = 1 AND TS.TableSetStatus = 1 AND TM.TableMemberStatus = 1 AND PD.Status = 1 AND PH.SomtrackID = @Som"
                 Dim Opencmd As SqlCommand = New SqlCommand(Openquery, con2)
                 Opencmd.Parameters.AddWithValue("@Som", Label15.Text)
+                Opencmd.Parameters.AddWithValue("@TS", TableSet)
                 con2.Open()
                 Using reader As SqlDataReader = Opencmd.ExecuteReader()
                     If reader.HasRows Then
@@ -53,10 +88,13 @@ Public Class Form1
                         End While
                         CheckBox1.Enabled = True
                         Button1.Enabled = True
+                        Panel5.Enabled = True
                     Else
+                        Label3.ForeColor = Color.Red
                         Label3.Text = "Invalid Somtrack"
                         CheckBox1.Enabled = False
                         Button1.Enabled = False
+                        Panel5.Enabled = False
                     End If
                 End Using
                 con.Close()
@@ -72,9 +110,10 @@ Update:
 
                 ''''UPDATE DETAILS''''
                 con2.Open()
-                Dim UpdateDetails As String = "UPDATE PD SET PD.DateEnded = GETDATE(), PD.Status = 5 FROM ProductionDetails as PD LEFT JOIN StationProcess as SP ON PD.BOMDID = SP.BOMDID LEFT JOIN ProductionHead as PH ON PH.ProductionHeadID = PD.ProductionHeadID LEFT JOIN TableMembers as TM ON TM.StationID = SP.StationID LEFT JOIN TableSet as TS ON TS.TableSetID = TM.TableSetID WHERE TS.TableID = 1 AND SP.StationID = 1 AND TS.TableSetStatus = 1 AND TM.TableMemberStatus = 1 AND PD.Status = 1 AND PH.SomtrackID = @Som"
+                Dim UpdateDetails As String = "UPDATE PD SET PD.DateEnded = GETDATE(), PD.Status = 5 FROM ProductionDetails as PD LEFT JOIN StationProcess as SP ON PD.BOMDID = SP.BOMDID LEFT JOIN ProductionHead as PH ON PH.ProductionHeadID = PD.ProductionHeadID LEFT JOIN TableMembers as TM ON TM.StationID = SP.StationID LEFT JOIN TableSet as TS ON TS.TableSetID = TM.TableSetID WHERE TS.TableID = @TS AND SP.StationID = 1 AND TS.TableSetStatus = 1 AND TM.TableMemberStatus = 1 AND PD.Status = 1 AND PH.SomtrackID = @Som"
                 Dim UpdateDetailsQuery As SqlCommand = New SqlCommand(UpdateDetails, con2)
                 UpdateDetailsQuery.Parameters.AddWithValue("@Som", Label15.Text)
+                UpdateDetailsQuery.Parameters.AddWithValue("@TS", TableSet)
                 UpdateDetailsQuery.ExecuteNonQuery()
                 con2.Close()
 
@@ -100,7 +139,7 @@ Update:
             End If
 
         End If
-
+Denied:
     End Sub
 
     Private Sub CheckBox1_CheckedChanged(sender As Object, e As EventArgs) Handles CheckBox1.CheckedChanged
@@ -210,6 +249,9 @@ Update:
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         LoadCategory()
         TextBox1.Select()
+
+
+
     End Sub
     Private Sub LoadCategory()
         '''''''QUERY FOR SELECTING LEADMAN'''''''''''
@@ -386,9 +428,27 @@ Update:
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
         If MessageBox.Show("Do you want to proceed with this case", "Please double check details before proceeding", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) = Windows.Forms.DialogResult.Yes Then
             Dim s1 As String = "0"
+            Dim TableSetID = 0
+            '''''''QUERY FOR SELECTING ACTIVE TABLE'''''''''''
+            Dim TableSetIDquery As String = "SELECT TableSetID FROM [SMProduction].[dbo].[TableSet] WHERE TableID = @TS AND TableSetStatus = 1"
+            Dim TableSetIDquerycmd As SqlCommand = New SqlCommand(TableSetIDquery, con2)
+            TableSetIDquerycmd.Parameters.AddWithValue("@TS", TableSet)
+            con2.Open()
+            Using reader As SqlDataReader = TableSetIDquerycmd.ExecuteReader()
+                If reader.HasRows Then
+                    While reader.Read()
+                        TableSetID = reader.Item("TableSetID").ToString
+                    End While
+                Else
+                    MessageBox.Show("There is no active roster for your table. Contact your Leadman to activate roster", "Failed to register Case")
+                    GoTo StopEntry
+                End If
+            End Using
+            con2.Close()
+
             ''''INSERT HEAD''''
             con2.Open()
-            Dim InsertHead As String = "INSERT INTO ProductionHead (SomtrackID,DateStarted, Status, ProductSubID, CategoryID, SubCategoryID, SplintID, TableNo, StationID) Values (@Som, GETDATE(), 1, @PS, @CID, @SCID, @SID, @TS, 1)"
+            Dim InsertHead As String = "INSERT INTO ProductionHead (SomtrackID,DateStarted, Status, ProductSubID, CategoryID, SubCategoryID, SplintID, LabPan, TableSetID, TableNo, StationID) Values (@Som, GETDATE(), 1, @PS, @CID, @SCID, @SID, @LP, @TSID, @TS, 1)"
             Dim InsertHeadQuery As SqlCommand = New SqlCommand(InsertHead, con2)
             InsertHeadQuery.Parameters.AddWithValue("@Som", Label15.Text)
             InsertHeadQuery.Parameters.AddWithValue("@PS", ComboBox3.SelectedValue)
@@ -396,6 +456,8 @@ Update:
             InsertHeadQuery.Parameters.AddWithValue("@SCID", gSubCategoryID)
             InsertHeadQuery.Parameters.AddWithValue("@SID", gSplintID)
             InsertHeadQuery.Parameters.AddWithValue("@TS", TableSet)
+            InsertHeadQuery.Parameters.AddWithValue("@LP", LabPan)
+            InsertHeadQuery.Parameters.AddWithValue("@TSID", TableSetID)
             InsertHeadQuery.ExecuteNonQuery()
             con2.Close()
 
@@ -411,16 +473,17 @@ Update:
 
             ''''UPDATE DETAILS''''
             con2.Open()
-            Dim UpdateDetails As String = "UPDATE PD SET PD.EmployeeID = TM.EmployeeID , PD.DateStarted = GETDATE(), PD.Status = 1 FROM ProductionDetails as PD LEFT JOIN StationProcess as SP ON PD.BOMDID = SP.BOMDID LEFT JOIN ProductionHead as PH ON PH.ProductionHeadID = PD.ProductionHeadID LEFT JOIN TableMembers as TM ON TM.StationID = SP.StationID LEFT JOIN TableSet as TS ON TS.TableSetID = TM.TableSetID WHERE TS.TableID = 1 AND SP.StationID = 1 AND TS.TableSetStatus = 1 AND TM.TableMemberStatus = 1 AND PH.SomtrackID = @Som"
+            Dim UpdateDetails As String = "UPDATE PD SET PD.EmployeeID = TM.EmployeeID , PD.DateStarted = GETDATE(), PD.Status = 1 FROM ProductionDetails as PD LEFT JOIN StationProcess as SP ON PD.BOMDID = SP.BOMDID LEFT JOIN ProductionHead as PH ON PH.ProductionHeadID = PD.ProductionHeadID LEFT JOIN TableMembers as TM ON TM.StationID = SP.StationID LEFT JOIN TableSet as TS ON TS.TableSetID = TM.TableSetID WHERE TS.TableID = @TS AND SP.StationID = 1 AND TS.TableSetStatus = 1 AND TM.TableMemberStatus = 1 AND PH.SomtrackID = @Som"
             Dim UpdateDetailsQuery As SqlCommand = New SqlCommand(UpdateDetails, con2)
             UpdateDetailsQuery.Parameters.AddWithValue("@Som", Label15.Text)
+            UpdateDetailsQuery.Parameters.AddWithValue("@TS", TableSet)
             UpdateDetailsQuery.ExecuteNonQuery()
             con2.Close()
 
 
             ''''INSERT SUB DETAILS''''
             con2.Open()
-            Dim InsertSubDetails As String = "INSERT INTO ProductionSubDetail (ProductionDetailID, ODetailsID, Points) SELECT [ProductionDetailID] ,OD.ODetailsID ,OD.Points FROM ProductionHead as PH LEFT JOIN [SMProduction].[dbo].[ProductionDetails] as PD ON PD.ProductionHeadID = PD.ProductionHeadID LEFT JOIN BillOfMaterialsDetails as BD ON BD.BOMDID = PD.BOMDID LEFT JOIN BillOfMaterials as BM ON BM.BOMID = BD.BOMID LEFT JOIN Operations as O ON O.OperationID = BD.OperationID LEFT JOIN OperationsDetail as OD ON OD.OperationID = O.OperationID WHERE BM.BOMStatus = 1 AND BD.BOMDStatus = 1 AND PH.SomtrackID = @Som"
+            Dim InsertSubDetails As String = "INSERT INTO ProductionSubDetail (ProductionDetailID, ODetailsID, Points) SELECT [ProductionDetailID] ,OD.ODetailsID ,OD.Points FROM ProductionHead as PH LEFT JOIN [SMProduction].[dbo].[ProductionDetails] as PD ON PD.ProductionHeadID = PH.ProductionHeadID LEFT JOIN BillOfMaterialsDetails as BD ON BD.BOMDID = PD.BOMDID LEFT JOIN BillOfMaterials as BM ON BM.BOMID = BD.BOMID LEFT JOIN Operations as O ON O.OperationID = BD.OperationID LEFT JOIN OperationsDetail as OD ON OD.OperationID = O.OperationID WHERE BM.BOMStatus = 1 AND BD.BOMDStatus = 1 AND PH.SomtrackID = @Som"
             Dim InsertSubDetailsQuery As SqlCommand = New SqlCommand(InsertSubDetails, con2)
             InsertSubDetailsQuery.Parameters.AddWithValue("@Som", Label15.Text)
             InsertSubDetailsQuery.ExecuteNonQuery()
@@ -433,10 +496,92 @@ Update:
             TextBox1.Select()
 
         End If
+StopEntry:
     End Sub
 
     Private Sub Timer1_Tick(sender As Object, e As EventArgs) Handles Timer1.Tick
         Label1.Text = Format(Now, "hh:mm:ss")
         Label2.Text = Format(Now, "MMMM dd, yyyy")
+
+        '''''''QUERY FOR SELECTING ACTIVE TABLE'''''''''''
+        Dim TableSetIDquery As String = "SELECT TableSetName FROM [SMProduction].[dbo].[TableSet] WHERE TableID = @TS AND TableSetStatus = 1"
+        Dim TableSetIDquerycmd As SqlCommand = New SqlCommand(TableSetIDquery, con3)
+        TableSetIDquerycmd.Parameters.AddWithValue("@TS", TableSet)
+        con3.Open()
+        Using reader As SqlDataReader = TableSetIDquerycmd.ExecuteReader()
+            If reader.HasRows Then
+                While reader.Read()
+                    Label21.Text = reader.Item("TableSetName").ToString
+                End While
+                TextBox1.Enabled = True
+                TextBox1.Select()
+            Else
+                TextBox1.Enabled = False
+                Label3.Text = "No Active Roster"
+                Label3.ForeColor = Color.Red
+
+            End If
+        End Using
+        con3.Close()
+    End Sub
+
+    Private Sub Label12_Click(sender As Object, e As EventArgs) Handles Label12.Click
+        Label12.BackColor = Color.DarkGreen
+        Label13.BackColor = Color.Transparent
+        Label14.BackColor = Color.Transparent
+        Label16.BackColor = Color.Transparent
+        Label17.BackColor = Color.Transparent
+        Label18.BackColor = Color.Transparent
+        LabPan = 1
+    End Sub
+
+    Private Sub Label13_Click(sender As Object, e As EventArgs) Handles Label13.Click
+        Label12.BackColor = Color.Transparent
+        Label13.BackColor = Color.DarkGreen
+        Label14.BackColor = Color.Transparent
+        Label16.BackColor = Color.Transparent
+        Label17.BackColor = Color.Transparent
+        Label18.BackColor = Color.Transparent
+        LabPan = 2
+    End Sub
+
+    Private Sub Label14_Click(sender As Object, e As EventArgs) Handles Label14.Click
+        Label12.BackColor = Color.Transparent
+        Label13.BackColor = Color.Transparent
+        Label14.BackColor = Color.DarkGreen
+        Label16.BackColor = Color.Transparent
+        Label17.BackColor = Color.Transparent
+        Label18.BackColor = Color.Transparent
+        LabPan = 3
+    End Sub
+
+    Private Sub Label16_Click(sender As Object, e As EventArgs) Handles Label16.Click
+        Label12.BackColor = Color.Transparent
+        Label13.BackColor = Color.Transparent
+        Label14.BackColor = Color.Transparent
+        Label16.BackColor = Color.DarkGreen
+        Label17.BackColor = Color.Transparent
+        Label18.BackColor = Color.Transparent
+        LabPan = 4
+    End Sub
+
+    Private Sub Label17_Click(sender As Object, e As EventArgs) Handles Label17.Click
+        Label12.BackColor = Color.Transparent
+        Label13.BackColor = Color.Transparent
+        Label14.BackColor = Color.Transparent
+        Label16.BackColor = Color.Transparent
+        Label17.BackColor = Color.DarkGreen
+        Label18.BackColor = Color.Transparent
+        LabPan = 5
+    End Sub
+
+    Private Sub Label18_Click(sender As Object, e As EventArgs) Handles Label18.Click
+        Label12.BackColor = Color.Transparent
+        Label13.BackColor = Color.Transparent
+        Label14.BackColor = Color.Transparent
+        Label16.BackColor = Color.Transparent
+        Label17.BackColor = Color.Transparent
+        Label18.BackColor = Color.DarkGreen
+        LabPan = 6
     End Sub
 End Class
