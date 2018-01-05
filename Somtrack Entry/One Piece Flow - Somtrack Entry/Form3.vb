@@ -1,5 +1,5 @@
 ﻿Imports System.Data.SqlClient
-Public Class Form1
+Public Class Form3
     Dim user = Environment.UserName
     Dim TableSet = My.Computer.FileSystem.ReadAllText("C:\Users\" + user + "\Documents\OPF-TableNo.txt")
     'SERVER'
@@ -13,49 +13,50 @@ Public Class Form1
     Dim Entry = 0
     Dim LabPan = 0
 
-
-
     Private Sub TextBox1_KeyPress(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles TextBox1.KeyPress
         If Asc(e.KeyChar) = 13 Then
             e.Handled = True
             Label3.ForeColor = Color.AntiqueWhite
             Label15.Text = TextBox1.Text
             TextBox1.Text = ""
-                'LOCALHOST' 
-                'con = New SqlConnection("Data Source=localhost;Initial Catalog=SomnoMed;User ID=SOMNOMED-IBM-Guest;Password=Somnomed01")
-                'LOCALHOST'
+            'LOCALHOST' 
+            'con = New SqlConnection("Data Source=localhost;Initial Catalog=SomnoMed;User ID=SOMNOMED-IBM-Guest;Password=Somnomed01")
+            'LOCALHOST'
 
 
-                '''''''CHECK ACTIVE CASE'''''''''''
-                Dim Activequery As String = "Select [SomtrackID], [StationID] From [SMProduction].[dbo].[ProductionHead] Where [TableNo] = @TS "
-                Dim Activecmd As SqlCommand = New SqlCommand(Activequery, con2)
-                Activecmd.Parameters.AddWithValue("@TS", TableSet)
-                con2.Open()
-                Using reader As SqlDataReader = Activecmd.ExecuteReader()
-                    If reader.HasRows Then
-                        While reader.Read()
-                            If Label15.Text = reader.Item("SomtrackID") And reader.Item("StationID") = 1 Then
-                                con2.Close()
-                                GoTo Accept
-                            ElseIf Label15.Text = reader.Item("SomtrackID") Then
+            '''''''CHECK ACTIVE CASE'''''''''''
+            Dim Activequery As String = "Select [SomtrackID], [StationID],Status From [SMProduction].[dbo].[ProductionHead] Where [TableNo] = @TS "
+            Dim Activecmd As SqlCommand = New SqlCommand(Activequery, con2)
+            Activecmd.Parameters.AddWithValue("@TS", TableSet)
+            con2.Open()
+            Using reader As SqlDataReader = Activecmd.ExecuteReader()
+                If reader.HasRows Then
+                    While reader.Read()
+                        If Label15.Text = reader.Item("SomtrackID") And reader.Item("StationID") = 1 Then
+                            con2.Close()
+                            GoTo Accept
+                        ElseIf Label15.Text = reader.Item("SomtrackID") And reader.Item("Status") = 4 Then
+                            con2.Close()
+                            GoTo Accept
+
+                        ElseIf Label15.Text = reader.Item("SomtrackID") Then
                             Label15.Text = reader.Item("SomtrackID")
                             Label3.ForeColor = Color.Red
                             Label3.Text = "already scanned"
-                                con2.Close()
-                                GoTo Denied
-                            ElseIf reader.Item("StationID") = 1 Then
+                            con2.Close()
+                            GoTo Denied
+                        ElseIf reader.Item("StationID") = 1 Then
                             Label15.Text = reader.Item("SomtrackID")
                             Label3.ForeColor = Color.Red
                             Label3.Text = "is still active"
-                                con2.Close()
-                                GoTo Denied
-                            End If
-                        End While
+                            con2.Close()
+                            GoTo Denied
+                        End If
+                    End While
 
-                    End If
-                End Using
-                con2.Close()
-
+                End If
+            End Using
+            con2.Close()
 Accept:
             If (Entry = 0) Then
 
@@ -249,7 +250,7 @@ Denied:
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         LoadCategory()
         TextBox1.Select()
-
+        LoadOption()
 
 
     End Sub
@@ -271,6 +272,60 @@ Denied:
             End If
         End Using
         con2.Close()
+    End Sub
+    Private Sub LoadOption()
+        '''''''QUERY FOR SELECTING LEADMAN'''''''''''
+
+        Dim dt As DataTable = New DataTable
+        Dim familyQuery As String = "SELECT 0 as OptionHeadID,'---Add on---' as OptionName UNION SELECT [OptionHeadID] ,[OptionName] FROM [SMProduction].[dbo].[OptionHead] WHERE OptionType = 1 ORDER BY OptionName ASC"
+        Dim familyCmd As SqlCommand = New SqlCommand(familyQuery, con2)
+        con2.Close()
+        con2.Open()
+
+        Using reader As SqlDataReader = familyCmd.ExecuteReader()
+            If reader.HasRows Then
+                dt.Load(reader)
+                ComboBox4.DataSource = dt
+                ComboBox4.ValueMember = "OptionHeadID"
+                ComboBox4.DisplayMember = "OptionName"
+
+            End If
+        End Using
+        con2.Close()
+
+        familyQuery = "SELECT 0 as OptionHeadID,'---Variants---' as OptionName UNION SELECT [OptionHeadID] ,[OptionName] FROM [SMProduction].[dbo].[OptionHead] WHERE OptionType = 2 ORDER BY OptionName ASC"
+        familyCmd = New SqlCommand(familyQuery, con2)
+        con2.Close()
+        con2.Open()
+
+        Using reader As SqlDataReader = familyCmd.ExecuteReader()
+            If reader.HasRows Then
+                dt.Load(reader)
+                ComboBox4.DataSource = dt
+                ComboBox4.ValueMember = "OptionHeadID"
+                ComboBox4.DisplayMember = "OptionName"
+
+            End If
+        End Using
+        con2.Close()
+
+        familyQuery = "SELECT 0 as OptionHeadID,'---Instructions---' as OptionName UNION SELECT [OptionHeadID] ,[OptionName] FROM [SMProduction].[dbo].[OptionHead] WHERE OptionType = 3 ORDER BY OptionName ASC"
+        familyCmd = New SqlCommand(familyQuery, con2)
+        con2.Close()
+        con2.Open()
+
+        Using reader As SqlDataReader = familyCmd.ExecuteReader()
+            If reader.HasRows Then
+                dt.Load(reader)
+                ComboBox4.DataSource = dt
+                ComboBox4.ValueMember = "OptionHeadID"
+                ComboBox4.DisplayMember = "OptionName"
+
+            End If
+        End Using
+        con2.Close()
+
+
     End Sub
     Private Sub ComboBox1_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ComboBox1.SelectedIndexChanged
         '''''''VARIABLES'''''''
@@ -340,9 +395,6 @@ Denied:
         CheckSubCategory()
     End Sub
 
-    Private Sub TextBox1_LostFocus(sender As Object, e As EventArgs) Handles TextBox1.LostFocus
-        TextBox1.Select()
-    End Sub
 
     Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
         If MessageBox.Show("Are you sure?", "Current inputs will be cleared", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) = Windows.Forms.DialogResult.Yes Then
@@ -353,49 +405,6 @@ Denied:
         End If
     End Sub
 
-
-    Private Sub OptionSelect(o)
-        If (o.checked = True) Then
-            o.backcolor = Color.DarkGreen
-        Else
-            o.backcolor = Color.Transparent
-        End If
-    End Sub
-
-    Private Sub CheckBox2_CheckedChanged(sender As Object, e As EventArgs) Handles CheckBox2.CheckedChanged
-        OptionSelect(CheckBox2)
-    End Sub
-
-    Private Sub CheckBox3_CheckedChanged(sender As Object, e As EventArgs) Handles CheckBox3.CheckedChanged
-        OptionSelect(CheckBox3)
-    End Sub
-
-    Private Sub CheckBox4_CheckedChanged(sender As Object, e As EventArgs) Handles CheckBox4.CheckedChanged
-        OptionSelect(CheckBox4)
-    End Sub
-
-    Private Sub CheckBox5_CheckedChanged(sender As Object, e As EventArgs) Handles CheckBox5.CheckedChanged
-        OptionSelect(CheckBox5)
-    End Sub
-
-    Private Sub CheckBox6_CheckedChanged(sender As Object, e As EventArgs) Handles CheckBox6.CheckedChanged
-        OptionSelect(CheckBox6)
-    End Sub
-
-    Private Sub CheckBox7_CheckedChanged(sender As Object, e As EventArgs) Handles CheckBox7.CheckedChanged
-        OptionSelect(CheckBox7)
-    End Sub
-    Private Sub CheckBox8_CheckedChanged(sender As Object, e As EventArgs) Handles CheckBox8.CheckedChanged
-        OptionSelect(CheckBox8)
-    End Sub
-
-    Private Sub CheckBox9_CheckedChanged(sender As Object, e As EventArgs) Handles CheckBox9.CheckedChanged
-        OptionSelect(CheckBox9)
-    End Sub
-
-    Private Sub CheckBox10_CheckedChanged(sender As Object, e As EventArgs) Handles CheckBox10.CheckedChanged
-        OptionSelect(CheckBox10)
-    End Sub
     Private Sub SplintSelect(sid)
         For Each ctrl As RadioButton In Panel3.Controls
             If ctrl.Checked Then
@@ -489,7 +498,6 @@ Denied:
             InsertSubDetailsQuery.ExecuteNonQuery()
             con2.Close()
 
-            MessageBox.Show("Case accepted", "SUCCESS")
             Entry = 1
             Button1.Enabled = False
             TextBox1.Enabled = True
@@ -514,7 +522,12 @@ StopEntry:
                     Label21.Text = reader.Item("TableSetName").ToString
                 End While
                 TextBox1.Enabled = True
-                TextBox1.Select()
+                If Label15.Text = "" Then
+                    TextBox1.Select()
+                End If
+                If Label13.Text = "No Active Roster" Then
+                    Label3.Text = ""
+                End If
             Else
                 TextBox1.Enabled = False
                 Label3.Text = "No Active Roster"
@@ -583,5 +596,40 @@ StopEntry:
         Label17.BackColor = Color.Transparent
         Label18.BackColor = Color.DarkGreen
         LabPan = 6
+    End Sub
+
+    Private Sub ComboBox4_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ComboBox4.SelectedIndexChanged
+        '''''''VARIABLES'''''''
+        Dim con As SqlConnection
+        Dim CB4 As String = ComboBox4.SelectedValue.ToString
+        'SERVER'
+        con = New SqlConnection("Data Source=SOMNOMED-IBM;Initial Catalog=SMProduction;User ID=SOMNOMED-IBM-Guest;Password=Somnomed01")
+        '''''''QUERY FOR SELECTING LEADMAN'''''''''''
+        Dim typeQuery As String = "SELECT [OptionDetail] ,[OptionDetailName] FROM [SMProduction].[dbo].[OptionDetail] WHERE [OptionHeadID] = @OH"
+        Dim typeCmd As SqlCommand = New SqlCommand(typeQuery, con)
+        typeCmd.Parameters.AddWithValue("@OH", CB4)
+        con.Open()
+        Using reader As SqlDataReader = typeCmd.ExecuteReader()
+            If reader.HasRows Then
+                Dim dt As DataTable = New DataTable
+                dt.Load(reader)
+
+                ComboBox5.DataSource = dt
+                ComboBox5.ValueMember = "OptionDetail"
+                ComboBox5.DisplayMember = "OptionDetailName"
+
+            End If
+        End Using
+        con.Close()
+    End Sub
+
+    Private Sub Button3_Click(sender As Object, e As EventArgs) Handles Button3.Click
+        ListBox1.Items.Add(ComboBox4.Text + " - " + ComboBox5.Text + "                                                                                                                        :" + ComboBox5.SelectedValue.ToString)
+
+
+    End Sub
+
+    Private Sub Button4_Click(sender As Object, e As EventArgs) Handles Button4.Click
+        ListBox1.Items.Remove(ListBox1.SelectedItem)
     End Sub
 End Class

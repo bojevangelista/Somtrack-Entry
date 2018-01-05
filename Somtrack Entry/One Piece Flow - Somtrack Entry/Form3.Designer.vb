@@ -1,5 +1,5 @@
 ﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
-Partial Class Form1
+Partial Class Form3
     Inherits System.Windows.Forms.Form
 
     'Form overrides dispose to clean up the component list.
@@ -23,7 +23,7 @@ Partial Class Form1
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
-        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Form1))
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Form3))
         Me.PictureBox1 = New System.Windows.Forms.PictureBox()
         Me.Label21 = New System.Windows.Forms.Label()
         Me.Label2 = New System.Windows.Forms.Label()
@@ -50,19 +50,12 @@ Partial Class Form1
         Me.RadioButton9 = New System.Windows.Forms.RadioButton()
         Me.RadioButton10 = New System.Windows.Forms.RadioButton()
         Me.Label10 = New System.Windows.Forms.Label()
-        Me.CheckBox2 = New System.Windows.Forms.CheckBox()
-        Me.CheckBox3 = New System.Windows.Forms.CheckBox()
-        Me.CheckBox4 = New System.Windows.Forms.CheckBox()
-        Me.CheckBox5 = New System.Windows.Forms.CheckBox()
-        Me.CheckBox6 = New System.Windows.Forms.CheckBox()
-        Me.CheckBox7 = New System.Windows.Forms.CheckBox()
-        Me.CheckBox8 = New System.Windows.Forms.CheckBox()
-        Me.CheckBox9 = New System.Windows.Forms.CheckBox()
-        Me.CheckBox10 = New System.Windows.Forms.CheckBox()
         Me.Panel1 = New System.Windows.Forms.Panel()
         Me.Panel2 = New System.Windows.Forms.Panel()
         Me.Panel3 = New System.Windows.Forms.Panel()
         Me.Panel4 = New System.Windows.Forms.Panel()
+        Me.ComboBox5 = New System.Windows.Forms.ComboBox()
+        Me.ComboBox4 = New System.Windows.Forms.ComboBox()
         Me.TextBox1 = New System.Windows.Forms.TextBox()
         Me.Button1 = New System.Windows.Forms.Button()
         Me.Button2 = New System.Windows.Forms.Button()
@@ -75,6 +68,10 @@ Partial Class Form1
         Me.Label14 = New System.Windows.Forms.Label()
         Me.Label12 = New System.Windows.Forms.Label()
         Me.Label11 = New System.Windows.Forms.Label()
+        Me.Button3 = New System.Windows.Forms.Button()
+        Me.ListBox1 = New System.Windows.Forms.ListBox()
+        Me.Label19 = New System.Windows.Forms.Label()
+        Me.Button4 = New System.Windows.Forms.Button()
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
         Me.Panel2.SuspendLayout()
@@ -401,114 +398,6 @@ Partial Class Form1
         Me.Label10.TabIndex = 43
         Me.Label10.Text = "Options :"
         '
-        'CheckBox2
-        '
-        Me.CheckBox2.AutoSize = True
-        Me.CheckBox2.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.0!)
-        Me.CheckBox2.ForeColor = System.Drawing.Color.White
-        Me.CheckBox2.Location = New System.Drawing.Point(22, 6)
-        Me.CheckBox2.Name = "CheckBox2"
-        Me.CheckBox2.Size = New System.Drawing.Size(114, 29)
-        Me.CheckBox2.TabIndex = 53
-        Me.CheckBox2.Text = "Dentritrac"
-        Me.CheckBox2.UseVisualStyleBackColor = True
-        '
-        'CheckBox3
-        '
-        Me.CheckBox3.AutoSize = True
-        Me.CheckBox3.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.0!)
-        Me.CheckBox3.ForeColor = System.Drawing.Color.White
-        Me.CheckBox3.Location = New System.Drawing.Point(22, 41)
-        Me.CheckBox3.Name = "CheckBox3"
-        Me.CheckBox3.Size = New System.Drawing.Size(159, 29)
-        Me.CheckBox3.TabIndex = 54
-        Me.CheckBox3.Text = "Breathing Hole"
-        Me.CheckBox3.UseVisualStyleBackColor = True
-        '
-        'CheckBox4
-        '
-        Me.CheckBox4.AutoSize = True
-        Me.CheckBox4.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.0!)
-        Me.CheckBox4.ForeColor = System.Drawing.Color.White
-        Me.CheckBox4.Location = New System.Drawing.Point(22, 76)
-        Me.CheckBox4.Name = "CheckBox4"
-        Me.CheckBox4.Size = New System.Drawing.Size(129, 29)
-        Me.CheckBox4.TabIndex = 55
-        Me.CheckBox4.Text = "Ball Clasps"
-        Me.CheckBox4.UseVisualStyleBackColor = True
-        '
-        'CheckBox5
-        '
-        Me.CheckBox5.AutoSize = True
-        Me.CheckBox5.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.0!)
-        Me.CheckBox5.ForeColor = System.Drawing.Color.White
-        Me.CheckBox5.Location = New System.Drawing.Point(200, 6)
-        Me.CheckBox5.Name = "CheckBox5"
-        Me.CheckBox5.Size = New System.Drawing.Size(175, 29)
-        Me.CheckBox5.TabIndex = 56
-        Me.CheckBox5.Text = "Elastic Retention"
-        Me.CheckBox5.UseVisualStyleBackColor = True
-        '
-        'CheckBox6
-        '
-        Me.CheckBox6.AutoSize = True
-        Me.CheckBox6.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.0!)
-        Me.CheckBox6.ForeColor = System.Drawing.Color.White
-        Me.CheckBox6.Location = New System.Drawing.Point(200, 41)
-        Me.CheckBox6.Name = "CheckBox6"
-        Me.CheckBox6.Size = New System.Drawing.Size(176, 29)
-        Me.CheckBox6.TabIndex = 57
-        Me.CheckBox6.Text = "Disclusion Ramp"
-        Me.CheckBox6.UseVisualStyleBackColor = True
-        '
-        'CheckBox7
-        '
-        Me.CheckBox7.AutoSize = True
-        Me.CheckBox7.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.0!)
-        Me.CheckBox7.ForeColor = System.Drawing.Color.White
-        Me.CheckBox7.Location = New System.Drawing.Point(200, 76)
-        Me.CheckBox7.Name = "CheckBox7"
-        Me.CheckBox7.Size = New System.Drawing.Size(143, 29)
-        Me.CheckBox7.TabIndex = 58
-        Me.CheckBox7.Text = "Lingual-Less"
-        Me.CheckBox7.UseVisualStyleBackColor = True
-        '
-        'CheckBox8
-        '
-        Me.CheckBox8.AutoSize = True
-        Me.CheckBox8.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.0!)
-        Me.CheckBox8.ForeColor = System.Drawing.Color.White
-        Me.CheckBox8.Location = New System.Drawing.Point(385, 6)
-        Me.CheckBox8.Name = "CheckBox8"
-        Me.CheckBox8.Size = New System.Drawing.Size(215, 29)
-        Me.CheckBox8.TabIndex = 59
-        Me.CheckBox8.Text = "Morning Repositioner"
-        Me.CheckBox8.UseVisualStyleBackColor = True
-        '
-        'CheckBox9
-        '
-        Me.CheckBox9.AutoSize = True
-        Me.CheckBox9.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.0!)
-        Me.CheckBox9.ForeColor = System.Drawing.Color.White
-        Me.CheckBox9.Location = New System.Drawing.Point(385, 41)
-        Me.CheckBox9.Name = "CheckBox9"
-        Me.CheckBox9.Size = New System.Drawing.Size(185, 29)
-        Me.CheckBox9.TabIndex = 60
-        Me.CheckBox9.Text = "Lateral Allowance"
-        Me.CheckBox9.UseVisualStyleBackColor = True
-        '
-        'CheckBox10
-        '
-        Me.CheckBox10.AutoSize = True
-        Me.CheckBox10.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.0!)
-        Me.CheckBox10.ForeColor = System.Drawing.Color.White
-        Me.CheckBox10.Location = New System.Drawing.Point(385, 76)
-        Me.CheckBox10.Name = "CheckBox10"
-        Me.CheckBox10.Size = New System.Drawing.Size(171, 29)
-        Me.CheckBox10.TabIndex = 61
-        Me.CheckBox10.Text = "Additional Splint"
-        Me.CheckBox10.UseVisualStyleBackColor = True
-        '
         'Panel1
         '
         Me.Panel1.Controls.Add(Me.RadioButton1)
@@ -544,20 +433,34 @@ Partial Class Form1
         '
         'Panel4
         '
-        Me.Panel4.Controls.Add(Me.CheckBox10)
-        Me.Panel4.Controls.Add(Me.CheckBox9)
-        Me.Panel4.Controls.Add(Me.CheckBox8)
-        Me.Panel4.Controls.Add(Me.CheckBox7)
-        Me.Panel4.Controls.Add(Me.CheckBox6)
-        Me.Panel4.Controls.Add(Me.CheckBox5)
-        Me.Panel4.Controls.Add(Me.CheckBox4)
-        Me.Panel4.Controls.Add(Me.CheckBox3)
-        Me.Panel4.Controls.Add(Me.CheckBox2)
-        Me.Panel4.Enabled = False
-        Me.Panel4.Location = New System.Drawing.Point(262, 803)
+        Me.Panel4.Controls.Add(Me.Button3)
+        Me.Panel4.Controls.Add(Me.ComboBox5)
+        Me.Panel4.Controls.Add(Me.ComboBox4)
+        Me.Panel4.Location = New System.Drawing.Point(262, 793)
         Me.Panel4.Name = "Panel4"
-        Me.Panel4.Size = New System.Drawing.Size(917, 124)
+        Me.Panel4.Size = New System.Drawing.Size(760, 58)
         Me.Panel4.TabIndex = 65
+        '
+        'ComboBox5
+        '
+        Me.ComboBox5.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.ComboBox5.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.0!)
+        Me.ComboBox5.FormattingEnabled = True
+        Me.ComboBox5.Location = New System.Drawing.Point(355, 5)
+        Me.ComboBox5.Name = "ComboBox5"
+        Me.ComboBox5.Size = New System.Drawing.Size(310, 33)
+        Me.ComboBox5.TabIndex = 28
+        '
+        'ComboBox4
+        '
+        Me.ComboBox4.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.ComboBox4.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.0!)
+        Me.ComboBox4.FormattingEnabled = True
+        Me.ComboBox4.Location = New System.Drawing.Point(22, 5)
+        Me.ComboBox4.Name = "ComboBox4"
+        Me.ComboBox4.Size = New System.Drawing.Size(327, 33)
+        Me.ComboBox4.TabIndex = 27
+        Me.ComboBox4.Tag = ""
         '
         'TextBox1
         '
@@ -686,12 +589,54 @@ Partial Class Form1
         Me.Label11.TabIndex = 69
         Me.Label11.Text = "Lab Pan :"
         '
+        'Button3
+        '
+        Me.Button3.Location = New System.Drawing.Point(671, 5)
+        Me.Button3.Name = "Button3"
+        Me.Button3.Size = New System.Drawing.Size(75, 33)
+        Me.Button3.TabIndex = 29
+        Me.Button3.Text = "Add"
+        Me.Button3.UseVisualStyleBackColor = True
+        '
+        'ListBox1
+        '
+        Me.ListBox1.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!)
+        Me.ListBox1.FormattingEnabled = True
+        Me.ListBox1.ItemHeight = 16
+        Me.ListBox1.Location = New System.Drawing.Point(1062, 678)
+        Me.ListBox1.Name = "ListBox1"
+        Me.ListBox1.Size = New System.Drawing.Size(421, 164)
+        Me.ListBox1.TabIndex = 76
+        '
+        'Label19
+        '
+        Me.Label19.AutoSize = True
+        Me.Label19.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.0!)
+        Me.Label19.ForeColor = System.Drawing.SystemColors.ControlLightLight
+        Me.Label19.Location = New System.Drawing.Point(1057, 646)
+        Me.Label19.Name = "Label19"
+        Me.Label19.Size = New System.Drawing.Size(105, 25)
+        Me.Label19.TabIndex = 77
+        Me.Label19.Text = "Option List"
+        '
+        'Button4
+        '
+        Me.Button4.Location = New System.Drawing.Point(1414, 650)
+        Me.Button4.Name = "Button4"
+        Me.Button4.Size = New System.Drawing.Size(69, 22)
+        Me.Button4.TabIndex = 78
+        Me.Button4.Text = "Remove"
+        Me.Button4.UseVisualStyleBackColor = True
+        '
         'Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(26, Byte), Integer))
         Me.ClientSize = New System.Drawing.Size(1784, 1041)
+        Me.Controls.Add(Me.Button4)
+        Me.Controls.Add(Me.Label19)
+        Me.Controls.Add(Me.ListBox1)
         Me.Controls.Add(Me.Button2)
         Me.Controls.Add(Me.Button1)
         Me.Controls.Add(Me.Panel4)
@@ -728,7 +673,6 @@ Partial Class Form1
         Me.Panel3.ResumeLayout(False)
         Me.Panel3.PerformLayout()
         Me.Panel4.ResumeLayout(False)
-        Me.Panel4.PerformLayout()
         Me.Panel5.ResumeLayout(False)
         Me.Panel5.PerformLayout()
         Me.ResumeLayout(False)
@@ -762,15 +706,6 @@ Partial Class Form1
     Friend WithEvents RadioButton9 As RadioButton
     Friend WithEvents RadioButton10 As RadioButton
     Friend WithEvents Label10 As Label
-    Friend WithEvents CheckBox2 As CheckBox
-    Friend WithEvents CheckBox3 As CheckBox
-    Friend WithEvents CheckBox4 As CheckBox
-    Friend WithEvents CheckBox5 As CheckBox
-    Friend WithEvents CheckBox6 As CheckBox
-    Friend WithEvents CheckBox7 As CheckBox
-    Friend WithEvents CheckBox8 As CheckBox
-    Friend WithEvents CheckBox9 As CheckBox
-    Friend WithEvents CheckBox10 As CheckBox
     Friend WithEvents Panel1 As Panel
     Friend WithEvents Panel2 As Panel
     Friend WithEvents Panel3 As Panel
@@ -787,4 +722,10 @@ Partial Class Form1
     Friend WithEvents Label16 As Label
     Friend WithEvents Label17 As Label
     Friend WithEvents Label18 As Label
+    Friend WithEvents ComboBox5 As ComboBox
+    Friend WithEvents ComboBox4 As ComboBox
+    Friend WithEvents Button3 As Button
+    Friend WithEvents ListBox1 As ListBox
+    Friend WithEvents Label19 As Label
+    Friend WithEvents Button4 As Button
 End Class
